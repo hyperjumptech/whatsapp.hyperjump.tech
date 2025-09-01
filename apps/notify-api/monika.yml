@@ -1,0 +1,14 @@
+notifications:
+  - id: monika-notif
+    type: monika-notif
+    data:
+      url: http://localhost:5001/api/notify?token=6d91d7e6-8c29-477d-8cd8-10aed3a0d9da
+probes:
+  - id: sample_login
+    name: Sample Login
+    requests:
+      - method: GET
+        url: https://github.com
+        alerts:
+          - assertion: response.time > 500
+            message: Github response time is {{ response.time }} ms, expecting less than 500ms

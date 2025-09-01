@@ -1,0 +1,45 @@
+{
+  "name": "@workspace/whatsapp",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
+  },
+  "exports": {
+    "./templates": {
+      "types": "./src/templates.ts",
+      "default": "./dist/templates.js"
+    },
+    "./action-template": {
+      "types": "./src/action-template.ts",
+      "default": "./dist/action-template.js"
+    },
+    "./client-context": {
+      "types": "./src/client-context.ts",
+      "default": "./dist/client-context.js"
+    },
+    "./client": {
+      "types": "./src/client.ts",
+      "default": "./dist/client.js"
+    },
+    "./send-message": {
+      "types": "./src/send-message.ts",
+      "default": "./dist/send-message.js"
+    }
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@workspace/env": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "@workspace/utils": "workspace:*",
+    "typescript": "latest",
+    "vitest": "^3.0.0",
+    "vite-tsconfig-paths": "^5.1.3"
+  }
+}

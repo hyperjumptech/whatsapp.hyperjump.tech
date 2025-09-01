@@ -1,0 +1,36 @@
+---
+title: Testing
+description: Testing for the project
+---
+
+This project uses [vitest](https://vitest.dev) to write tests. To run the tests, you need to run the following command first from the root of the monorepo project:
+
+```bash
+docker-compose up
+```
+
+That will start the local PostgreSQL database that will be used by the tests.
+
+Then run the tests with the following command from the root of the monorepo project:
+
+```bash
+pnpm test
+```
+
+To run the tests with coverage, you can run the following command from the root of the monorepo project:
+
+```bash
+pnpm coverage
+```
+
+You can also run the tests inside each app or package. For example, to run the tests inside the `web` app, you can run the following command from the `apps/web` directory:
+
+```bash
+pnpm test
+```
+
+To run the tests with coverage inside the `web` app, you can run the following command from the `apps/web` directory:
+
+```bash
+pnpm coverage
+```

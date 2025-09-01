@@ -1,0 +1,27 @@
+{
+  "name": "whatsapp-hyperjump-tech",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "start": "turbo start",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
+    "symlink-env": "./dev-bootstrap.sh",
+    "test": "turbo test",
+    "coverage": "turbo coverage"
+  },
+  "devDependencies": {
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.5",
+    "typescript": "5.7.3"
+  },
+  "packageManager": "pnpm@10.4.1",
+  "engines": {
+    "node": ">=20"
+  }
+}

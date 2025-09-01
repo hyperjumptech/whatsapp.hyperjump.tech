@@ -1,0 +1,70 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Label of the container job
+  run-test:
+    name: Run test
+    # You must use a Linux environment when using service containers or container jobs
+    runs-on: ubuntu-latest
+
+    # Service containers to run with `runner-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: |
+          # replace the DATABASE_URL in the env.example file with the correct value
+          sed -i 's|DATABASE_URL=.*|DATABASE_URL=postgresql://root:root@localhost:5432/postgres?schema=public|' packages/env/env.example
+          cp packages/env/env.example packages/env/.env
+          ./dev-bootstrap.sh
+      - run: pnpm run build
+        name: Build
+      - id: test
+        name: Test
+        run: pnpm dlx turbo test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: apps-test-results
+          path: apps/*/coverage/test-output.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: packages-test-results
+          path: packages/*/coverage/test-output.json
+      - name: Check test status
+        if: steps.test.outcome != 'success'
+        run: exit 1

@@ -1,0 +1,29 @@
+---
+title: Test Webhook
+description: Register a new user
+---
+
+The test webhook feature allows users to test their webhook. This feature is available at the home page of the web app with the "Test Webhook" tab. (`/test-webhook`)
+
+## Behavior
+
+- If the entered webhook URL is invalid, show an error message that says the webhook URL is invalid.
+- If the entered webhook URL is valid but the token is not found, show an error message that says the token is required.
+- If the entered webhook URL is valid and the token is found but the user is not found, show an error message that says the user is not found.
+- If the entered webhook URL is valid and the token is found and the user is found, show a success message that says the webhook is tested successfully.
+
+User can select the type of sample notification they want to receive:
+
+- Start
+- Incident
+- Recovery
+- Status Update
+- Terminate
+
+## Related code
+
+Important files related to this feature are:
+
+- `apps/web/app/test-webhook/page.client.tsx`
+- `apps/web/hooks/use-test-webhook.ts`
+- `apps/web/actions/test-webhook/index.ts`

@@ -1,0 +1,21 @@
+---
+title: Resend
+description: Resend a confirmation message to a user
+---
+
+The resend feature allows users to resend a confirmation message to their WhatsApp number. This feature is available at the home page of the web app with the "Resend" tab. (`/?tab=resend-instruction`)
+
+## Behavior
+
+- If the entered phone number does not have a webhook token, show an error message that says the phone number is not registered.
+- If the entered phone number has a webhook token but the resend at is in the future, show an error message that says the resend is too soon so the user can try again later.
+
+After resending the confirmation message, a WhatsApp message will be sent to the user to confirm their number.
+
+## Related code
+
+Important files related to this feature are:
+
+- `apps/web/app/page.client.tsx`
+- `apps/web/hooks/use-register-resend.ts`
+- `apps/web/actions/resend/index.ts`

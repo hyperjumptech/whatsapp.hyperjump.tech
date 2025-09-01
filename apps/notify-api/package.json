@@ -1,0 +1,36 @@
+{
+  "name": "notify-api",
+  "type": "module",
+  "scripts": {
+    "dev": "dotenv -e .env.local -- tsx watch src/index.ts",
+    "build": "tsc && pnpm run fix-netlify-functions",
+    "start": "dotenv -e .env.local -- node dist/src/index.js",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "fix-netlify-functions": "./scripts/fix-netlify-functions.sh"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.0",
+    "@netlify/functions": "^4.2.5",
+    "hono": "^4.9.4",
+    "zod": "^3.22.4",
+    "@workspace/database": "workspace:*",
+    "@workspace/env": "workspace:*",
+    "@workspace/utils": "workspace:*",
+    "@workspace/whatsapp": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/eslint-config-custom": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "@workspace/whatsapp": "workspace:*",
+    "dotenv": "^17.2.1",
+    "dotenv-cli": "^10.0.0",
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.3",
+    "vitest": "^3.0.0",
+    "vite-tsconfig-paths": "^5.1.3"
+  }
+}

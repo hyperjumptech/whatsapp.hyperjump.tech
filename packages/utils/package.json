@@ -1,0 +1,53 @@
+{
+  "name": "@workspace/utils",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
+  },
+  "exports": {
+    "./random-context": {
+      "types": "./src/random-context.ts",
+      "default": "./dist/random-context.js"
+    },
+    "./time-context": {
+      "types": "./src/time-context.ts",
+      "default": "./dist/time-context.js"
+    },
+    "./multiple-contexts": {
+      "types": "./src/multiple-contexts.ts",
+      "default": "./dist/multiple-contexts.js"
+    },
+    "./test-async-rsc": {
+      "types": "./src/test-async-rsc.ts",
+      "default": "./dist/test-async-rsc.js"
+    },
+    "./url": {
+      "types": "./src/url.ts",
+      "default": "./dist/url.js"
+    }
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.6.4",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^20.19.9",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "@vitest/coverage-v8": "3.2.4",
+    "@workspace/env": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "typescript": "latest",
+    "vitest": "^3.0.0",
+    "vite-tsconfig-paths": "^5.1.3"
+  }
+}

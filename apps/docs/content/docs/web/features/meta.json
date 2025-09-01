@@ -1,0 +1,6 @@
+{
+  "title": "Features",
+  "icon": "🚀",
+  "pages": ["register", "resend", "test-webhook"],
+  "defaultOpen": true
+}

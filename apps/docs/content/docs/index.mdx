@@ -1,0 +1,31 @@
+---
+title: Introduction
+description: Documentation for the Monika Notification Service
+---
+
+This is the documentation for the Monika Notification Service that is deployed at [whatsapp.hyperjump.tech](https://whatsapp.hyperjump.tech).
+
+[Monika](https://monika.hyperjump.tech) notification service is a service that allows you to send notifications from Monika to your WhatsApp number for FREE.
+
+## Project Structure
+
+The project is using a monorepo structure using [Turborepo](https://turbo.build/repo/docs) and [pnpm](https://pnpm.io). It contains the apps (in `apps` directory) and packages (in `packages` directory).
+
+### Apps
+
+- `web`: The [Next.js](https://nextjs.org) web app that allows user to register their whatsapp number and to get the unique URL to use in their Monika configuration. They can also get the instructions to use Monika with WhatsApp. This app also allows user to delete the webhook from our database.
+- `facebook-webhooks`: The [Hono](https://hono.dev) server that handles the webhooks from Facebook.
+- `notify-api`: The [Hono](https://hono.dev) server that handles the notifications from Monika. The URL of this server is used in the Monika configuration.
+- `whatsapp-mock-server`: The mock server that simulates the WhatsApp API for development purposes.
+- `docs`: This documentation app which is using [Fumadocs](https://fumadocs.vercel.app) to generate the documentation.
+
+### Packages
+
+- `env`: The package that contains the environment variables for the project. Use this package to read environment variables in the apps and packages.
+- `whatsapp`: The package that contains the WhatsApp API client and other helpers to send messages via WhatsApp.
+- `database`: The package that contains the [prisma](https://www.prisma.io) client, schema, and other helpers to interact with the database.
+- `ui`: The package that contains the [shadcn](https://ui.shadcn.com) components and other UI components which can be used in the apps like `web`.
+- `eslint-config`: The package that contains the [eslint](https://eslint.org) config which can be used in other apps and packages.
+- `eslint-config-custom`: The package that contains the custom eslint config which can be used in other apps and packages.
+- `typescript-config`: The package that contains the typescript config which can be used in other apps and packages.
+- `utils`: The package that contains the utility functions which can be used in other apps and packages.

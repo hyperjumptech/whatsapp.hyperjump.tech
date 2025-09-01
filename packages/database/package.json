@@ -1,0 +1,45 @@
+{
+  "name": "@workspace/database",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist/**/*"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./client": "./dist/client.js",
+    "./context": "./dist/context.js",
+    "./test-utils": "./dist/test-utils.js"
+  },
+  "scripts": {
+    "clean": "rimraf .turbo node_modules dist",
+    "db:migrate:deploy": "dotenv -e .env.local -- prisma migrate deploy && prisma generate --sql",
+    "db:migrate:dev": "dotenv -e .env.local -- prisma migrate dev",
+    "db:migrate:reset": "dotenv -e .env.local -- prisma migrate reset",
+    "db:generate": "dotenv -e .env.local -- prisma generate && dotenv -e .env.local -- prisma generate --sql",
+    "db:push": "dotenv -e .env.local -- prisma db push --skip-generate",
+    "format": "dotenv -e .env.local -- prisma format",
+    "generate": "dotenv -e .env.local -- prisma generate",
+    "lint": "dotenv -e .env.local -- eslint \"src/**/*.ts\"",
+    "studio": "dotenv -e .env.local -- prisma studio",
+    "build": "rm -rf dist && pnpm run generate && tsc && cp -r src/generated dist/",
+    "dev": "pnpm run generate && tsc --watch"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "uuid": "11.1.0"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^10.0.0",
+    "@types/node": "^20",
+    "eslint": "^8",
+    "@workspace/eslint-config-custom": "workspace:*",
+    "prisma": "^6.6.0",
+    "rimraf": "^6.0.1",
+    "@workspace/typescript-config": "workspace:*",
+    "tsx": "^4",
+    "typescript": "^5"
+  }
+}

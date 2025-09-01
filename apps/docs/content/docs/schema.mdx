@@ -1,0 +1,47 @@
+---
+title: Database Schema
+description: Database schema for the project
+---
+
+The database schema is defined in the `packages/database/prisma/schema.prisma` file. It uses [Prisma](https://www.prisma.io) to define the schema.
+
+## Tables
+
+- `registrations`: The table that stores the registration information.
+- `users`: The table that stores the user information.
+- `webhook_token`: The table that stores the webhook token information.
+- `webhook_logs`: The table that stores the webhook logs.
+
+## Explanation
+
+When a phone number becomes a `user`, they can use the service in their Monika configuration. But before becoming a `user`, the phone number stays in the `registrations` table until they confirm their number.
+
+After the phone number is confirmed, the `registrations` record will be deleted and the phone number will be moved to the `users` table.
+
+## Development
+
+When you make changes to the schema, you need to run the following command in the `packages/database` directory:
+
+```bash
+pnpm run db:generate
+```
+
+This will generate the Prisma client and the Prisma schema. You can then import the generated client in the apps or packages that need to access the database by adding the following to the `package.json` file:
+
+```json
+"dependencies": {
+  "@workspace/database": "workspace:*"
+}
+```
+
+Then run the following command in the root of the monorepo project:
+
+```bash
+pnpm run install
+```
+
+Then in the apps or packages that need to access the database, you can import the generated client by adding the following to the file:
+
+```typescript
+import { prismaClient } from "@workspace/database/client";
+```

@@ -1,0 +1,22 @@
+---
+title: Register
+description: Register a new user
+---
+
+The register feature allows users to register their WhatsApp number and name. This feature is available at the home page of the web app.
+
+## Behavior
+
+- If the entered phone number is not a `user` yet, the user can register their WhatsApp number and name.
+- If the entered phone number is already a `user`, show an error message that says the phone number is already registered.
+- If the entered phone number is not a `user` yet but a `registration` exists and not yet expired, show an error message that says the registration is already attempted.
+
+After saving the registration, the user will be redirected to the confirm page and a WhatsApp message will be sent to the user to confirm their number.
+
+## Related code
+
+Important files related to this feature are:
+
+- `apps/web/app/page.client.tsx`
+- `apps/web/hooks/use-register-resend.ts`
+- `apps/web/actions/register/index.ts`

@@ -1,0 +1,19 @@
+---
+title: Getting Started
+description: Getting started with the development of Monika Notification Service
+---
+
+## Prerequisites
+
+- Node.js 20+
+- pnpm
+- Docker
+
+## Getting Started
+
+From the root of the monorepo project, run the following command:
+
+- `pnpm install` to install the dependencies.
+- `cp env.example .env` from the `packages/env` directory.
+- Edit the environment variable values as needed.
+- `./dev-bootstrap.sh` to bootstrap the development environment. The script basically creates symlinks to the `packages/env/.env` file to `.env.local` in all apps and packages.

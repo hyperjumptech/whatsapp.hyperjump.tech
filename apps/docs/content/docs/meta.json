@@ -1,0 +1,16 @@
+{
+  "title": "WA-Monika",
+  "icon": "🚀",
+  "pages": [
+    "---Project---",
+    "index",
+    "getting-started",
+    "env",
+    "schema",
+    "testing",
+    "---Web App---",
+    "web/intro",
+    "web/features"
+  ],
+  "defaultOpen": true
+}
