@@ -90,6 +90,7 @@ This project uses [env-to-t3](https://github.com/nicnocquee/env-to-t3) to genera
 3. Run `pnpm run coverage` to run the tests with coverage.
 4. The coverage report will be generated in the `coverage` directories of each package.
 5. To open the coverage reports in the browser, run `./open-coverages.sh`.
+6. To combine the coverage reports of all apps and packages, run `pnpm run coverage:combined`.
 
 ### Cleaning up
 

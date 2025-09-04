@@ -14,23 +14,25 @@ That will start the local PostgreSQL database that will be used by the tests.
 Then run the tests with the following command from the root of the monorepo project:
 
 ```bash
-pnpm test
+pnpm run test
 ```
 
-To run the tests with coverage, you can run the following command from the root of the monorepo project:
+To run the tests for all apps and packages with coverage, you can run the following command from the root of the monorepo project:
 
 ```bash
-pnpm coverage
+pnpm run coverage:combined
 ```
+
+The coverage report location will be displayed in the output of the command.
 
 You can also run the tests inside each app or package. For example, to run the tests inside the `web` app, you can run the following command from the `apps/web` directory:
 
 ```bash
-pnpm test
+pnpm run test
 ```
 
 To run the tests with coverage inside the `web` app, you can run the following command from the `apps/web` directory:
 
 ```bash
-pnpm coverage
+pnpm run coverage
 ```
