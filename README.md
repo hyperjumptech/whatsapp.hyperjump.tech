@@ -1,5 +1,7 @@
 # whatsapp.hyperjump.tech
 
+[![codecov](https://codecov.io/github/hyperjumptech/whatsapp.hyperjump.tech/graph/badge.svg?token=BUH4TVSVPQ)](https://codecov.io/github/hyperjumptech/whatsapp.hyperjump.tech)
+
 This project is a whatsapp integration for [Monika](https://monika.hyperjump.tech). It allows you to send recovery and incident notifications to your whatsapp number.
 
 ## Overview

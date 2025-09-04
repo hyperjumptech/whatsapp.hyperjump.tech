@@ -10,13 +10,39 @@ on:
       - main
 
 jobs:
-  # Label of the container job
-  run-test:
-    name: Run test
-    # You must use a Linux environment when using service containers or container jobs
+  # Setup job to install dependencies
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.4.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-    # Service containers to run with `runner-job`
+  # Run tests in parallel using matrix strategy
+  run-tests:
+    name: Test ${{ matrix.package }}
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [
+          "web",
+          "facebook-webhooks",
+          "notify-api",
+          "@workspace/utils",
+          "@workspace/whatsapp"
+        ]
+
+    # Service containers to run with each job
     services:
       # Label used to access the service container
       postgres:
@@ -44,27 +70,143 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
-      - run: pnpm install --frozen-lockfile
-      - run: |
-          # replace the DATABASE_URL in the env.example file with the correct value
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Setup environment
+        run: |
           sed -i 's|DATABASE_URL=.*|DATABASE_URL=postgresql://root:root@localhost:5432/postgres?schema=public|' packages/env/env.example
           cp packages/env/env.example packages/env/.env
           ./dev-bootstrap.sh
-      - run: pnpm run build
-        name: Build
+      - name: Build only required package and its dependencies
+        run: |
+          # For workspace packages, build only the specific package and its dependencies
+          if [[ "${{ matrix.package }}" == @workspace/* ]]; then
+            PACKAGE_NAME="${{ matrix.package }}"
+            echo "Building workspace package: $PACKAGE_NAME and its dependencies"
+            pnpm --filter "$PACKAGE_NAME..." build
+          else
+            echo "Building app: ${{ matrix.package }} and its dependencies"
+            pnpm --filter "${{ matrix.package }}..." build
+          fi
       - id: test
-        name: Test
-        run: pnpm dlx turbo test
+        name: Run tests for ${{ matrix.package }}
+        run: |
+          # For workspace packages, need to handle the path differently
+          if [[ "${{ matrix.package }}" == @workspace/* ]]; then
+            PACKAGE_NAME="${{ matrix.package }}"
+            PACKAGE_PATH="packages/${PACKAGE_NAME/@workspace\//}"
+            echo "Running tests for workspace package: $PACKAGE_NAME at path: $PACKAGE_PATH"
+            cd $PACKAGE_PATH && pnpm coverage
+          else
+            echo "Running tests for app: ${{ matrix.package }}"
+            cd apps/${{ matrix.package }} && pnpm coverage
+          fi
+      - name: Debug coverage files
+        run: |
+          if [[ "${{ matrix.package }}" == @workspace/* ]]; then
+            PACKAGE_NAME="${{ matrix.package }}"
+            PACKAGE_PATH="packages/${PACKAGE_NAME/@workspace\//}"
+            echo "Package path: $PACKAGE_PATH"
+            find "$PACKAGE_PATH/coverage" -type f -name "*.json" || echo "No coverage files found"
+          else
+            echo "App path: apps/${{ matrix.package }}"
+            find "apps/${{ matrix.package }}/coverage" -type f -name "*.json" || echo "No coverage files found"
+          fi
+          
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: apps-test-results
-          path: apps/*/coverage/test-output.json
-      - uses: actions/upload-artifact@v4
-        if: always()
+          name: ${{ matrix.package == '@workspace/utils' && 'workspace-utils-test-results' || matrix.package == '@workspace/whatsapp' && 'workspace-whatsapp-test-results' || format('{0}-test-results', matrix.package) }}
+          path: |
+            apps/${{ matrix.package }}/coverage/test-output.json
+            apps/${{ matrix.package }}/coverage/coverage-final.json
+            packages/**/coverage/test-output.json
+            packages/**/coverage/coverage-final.json
+          if-no-files-found: warn
+
+  # Combine coverage reports
+  combine-coverage:
+    name: Combine Coverage Reports
+    needs: run-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
         with:
-          name: packages-test-results
-          path: packages/*/coverage/test-output.json
-      - name: Check test status
-        if: steps.test.outcome != 'success'
-        run: exit 1
+          version: 10.4.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Download all test results
+        uses: actions/download-artifact@v4
+        with:
+          path: ./coverage-artifacts
+      - name: Debug downloaded artifacts
+        run: |
+          ls -la ./coverage-artifacts || echo "No artifacts found"
+          find ./coverage-artifacts -type f | sort
+      - name: Prepare coverage directories
+        run: |
+          mkdir -p apps/web/coverage
+          mkdir -p apps/facebook-webhooks/coverage
+          mkdir -p apps/notify-api/coverage
+          mkdir -p packages/utils/coverage
+          mkdir -p packages/whatsapp/coverage
+      - name: Move coverage files to expected locations
+        run: |
+          # Move files for apps
+          for app in web facebook-webhooks notify-api; do
+            if [ -d "./coverage-artifacts/${app}-test-results" ]; then
+              echo "Processing artifacts for app: ${app}"
+              mkdir -p "apps/${app}/coverage"
+              
+              # Copy coverage files if they exist
+              find "./coverage-artifacts/${app}-test-results" -name "coverage-final.json" -exec cp {} "apps/${app}/coverage/" \;
+              find "./coverage-artifacts/${app}-test-results" -name "test-output.json" -exec cp {} "apps/${app}/coverage/" \;
+            fi
+          done
+          
+          # Move files for workspace packages
+          if [ -d "./coverage-artifacts" ]; then
+            # For utils package
+            if [ -d "./coverage-artifacts/workspace-utils-test-results" ]; then
+              echo "Processing artifacts for package: utils"
+              mkdir -p "packages/utils/coverage"
+              
+              # Copy coverage files if they exist
+              find "./coverage-artifacts/workspace-utils-test-results" -name "coverage-final.json" -exec cp {} "packages/utils/coverage/" \;
+              find "./coverage-artifacts/workspace-utils-test-results" -name "test-output.json" -exec cp {} "packages/utils/coverage/" \;
+            fi
+            
+            # For whatsapp package
+            if [ -d "./coverage-artifacts/workspace-whatsapp-test-results" ]; then
+              echo "Processing artifacts for package: whatsapp"
+              mkdir -p "packages/whatsapp/coverage"
+              
+              # Copy coverage files if they exist
+              find "./coverage-artifacts/workspace-whatsapp-test-results" -name "coverage-final.json" -exec cp {} "packages/whatsapp/coverage/" \;
+              find "./coverage-artifacts/workspace-whatsapp-test-results" -name "test-output.json" -exec cp {} "packages/whatsapp/coverage/" \;
+            fi
+          fi
+          
+          # List files for debugging
+          echo "Coverage files found:"
+          find apps packages -name "coverage-final.json" || echo "No coverage-final.json files found"
+          find apps packages -name "test-output.json" || echo "No test-output.json files found"
+      - name: Generate combined coverage report
+        run: node scripts/combine-coverage.js
+      - name: Debug coverage files
+        run: |
+          find .coverage -type f -name "*.info" || echo "No .info files found"
+          find .coverage -type f -name "*.json" || echo "No .json files found"
+          ls -la .coverage/merged/ || echo "Directory doesn't exist"
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: .coverage/merged
+          fail_ci_if_error: false
+          verbose: true
