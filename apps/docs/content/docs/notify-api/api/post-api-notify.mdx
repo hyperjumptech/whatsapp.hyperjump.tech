@@ -1,0 +1,76 @@
+---
+title: POST /api/notify
+description: POST /api/notify
+---
+
+This endpoint is used to send notifications via WhatsApp to users based on the action type.
+
+## Query Parameters
+
+- `token`: The webhook authentication token. Get the token by registering your WhatsApp number in the [web app](https://whatsapp.hyperjump.tech).
+
+## Request Body
+
+The request body uses a discriminated union based on the `type` field. Each type has different required fields:
+
+### 1. Start/Terminate Actions
+
+```json
+{
+  "type": "start" | "terminate",
+  "ip_address": "127.0.0.1"
+}
+```
+
+**Fields:**
+
+- `type`: Must be either `"start"` or `"terminate"`
+- `ip_address`: The IP address associated with the action
+
+### 2. Incident/Recovery Actions
+
+```json
+{
+  "type": "incident" | "recovery" | "incident-symon" | "recovery-symon",
+  "alert": "High CPU usage detected",
+  "url": "https://example.com/monitoring",
+  "time": "2024-01-15T10:30:00Z",
+  "monika": "production-monitor-01"
+}
+```
+
+**Fields:**
+
+- `type`: Must be one of `"incident"`, `"recovery"`, `"incident-symon"`, or `"recovery-symon"`
+- `alert`: Description of the incident or recovery event
+- `url`: URL to the monitoring dashboard or relevant page
+- `time`: Timestamp of the event
+- `monika`: Identifier for the monitoring instance
+
+### 3. Status Update Actions
+
+```json
+{
+  "type": "status",
+  "status": "online" | "offline",
+  "url": "https://example.com/monitoring",
+  "time": "2024-01-15T10:30:00Z",
+  "monika": "production-monitor-01"
+}
+```
+
+**Fields:**
+
+- `type`: Must be `"status"`
+- `status`: Must be either `"online"` or `"offline"`
+- `url`: URL to the monitoring dashboard or relevant page
+- `time`: Timestamp of the event
+- `monika`: Identifier for the monitoring instance
+
+## Response
+
+The response is a JSON object with the following fields:
+
+- `error`: The error message if any
+- `message`: The message to be sent to WhatsApp
+- `status`: The status code of the response

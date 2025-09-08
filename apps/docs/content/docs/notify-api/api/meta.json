@@ -1,0 +1,6 @@
+{
+  "title": "API",
+  "icon": "🚀",
+  "pages": ["post-api-notify"],
+  "defaultOpen": true
+}

@@ -10,7 +10,10 @@
     "testing",
     "---Web App---",
     "web/intro",
-    "web/features"
+    "web/features",
+    "---Notify API---",
+    "notify-api/intro",
+    "notify-api/api"
   ],
   "defaultOpen": true
 }

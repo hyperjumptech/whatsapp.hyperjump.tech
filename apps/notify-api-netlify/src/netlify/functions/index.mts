@@ -1,5 +1,5 @@
 import { Context, Config } from "@netlify/functions";
-import { createApp } from "../../../src/app.js";
+import { createApp } from "notify-api/app";
 
 const app = createApp({ isNetlify: true });
 

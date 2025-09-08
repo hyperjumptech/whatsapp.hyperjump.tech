@@ -1,6 +1,6 @@
 # Notification Engine API
 
-A Hono-based mock server that accepts notifications from monika.
+A Hono-based server that accepts notifications from [Monika](https://monika.hyperjump.tech).
 
 ## Quick Start
 
@@ -24,11 +24,11 @@ Start the development server with hot reload:
 pnpm dev
 ```
 
-The server will start on `http://localhost:5001` by default.
+The server will start on `http://localhost:5001` by default. You can then use the `monika.yml` file to test the API using [Monika](https://monika.hyperjump.tech) by running `monika -c monika.yml`.
 
 ### Production (Netlify Functions)
 
-The production API is deployed on Netlify Functions. You can find the function code in the `src/netify/functions` directory.
+As of September 2025, the production API is currently deployed on Netlify Functions from the `notify-api-netlify` app.
 
 ## API Endpoints
 

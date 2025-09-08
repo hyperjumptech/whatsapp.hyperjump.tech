@@ -11,7 +11,41 @@ The register feature allows users to register their WhatsApp number and name. Th
 - If the entered phone number is already a `user`, show an error message that says the phone number is already registered.
 - If the entered phone number is not a `user` yet but a `registration` exists and not yet expired, show an error message that says the registration is already attempted.
 
-After saving the registration, the user will be redirected to the confirm page and a WhatsApp message will be sent to the user to confirm their number.
+After saving the registration, the user will be redirected to the confirm page and a WhatsApp message will be sent to the user to confirm their number. The WhatsApp message will look like this:
+
+```
+Monika WhatsApp Notifier
+Hello your_name,
+
+Thank you for using Monika WhatsApp Notifier!
+
+Please click this link to confirm your phone number: https://wa-hyperjump-tech.netlify.app/confirm/some_random_token
+
+This link will be expired at 2025-09-03T20:55:44.873Z
+Sent by Hyperjump Tech (https://hyperjump.tech)
+```
+
+Once they confirm, the registration will be saved and the user will be redirected to the confirm page. The user will also receive another WhatsApp message with the instructions to use Monika with WhatsApp. In this message, they will be given the unique webhook URL to use in their Monika configuration. This webhook URL points to the [notify-api](https://github.com/hyperjumptech/whatsapp.hyperjump.tech/tree/main/apps/notify-api) app. The WhatsApp message will look like this:
+
+```
+Here's your webhook URL:
+https://monika-notify-api.netlify.app/api/notify?token=some_random_token
+
+You can use it to get a notification from Monika by adding it to the configuration as follows.
+
+notifications:
+
+  - id: 'monika-whatsapp-notifier'
+    type: 'monika-notif'
+    data:
+      url: https://monika-notify-api.netlify.app/api/notify?token=some_random_token
+
+For more information, please check the Monika WhatsApp Notifier documentation:
+https://monika.hyperjump.tech/guides/notifications#whatsapp
+
+To delete your Monika WhatsApp Notifier account:
+https://wa-hyperjump-tech.netlify.app/delete/some_random_token
+```
 
 ## Related code
 

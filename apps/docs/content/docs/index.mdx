@@ -16,6 +16,7 @@ The project is using a monorepo structure using [Turborepo](https://turbo.build/
 - `web`: The [Next.js](https://nextjs.org) web app that allows user to register their whatsapp number and to get the unique URL to use in their Monika configuration. They can also get the instructions to use Monika with WhatsApp. This app also allows user to delete the webhook from our database.
 - `facebook-webhooks`: The [Hono](https://hono.dev) server that handles the webhooks from Facebook.
 - `notify-api`: The [Hono](https://hono.dev) server that handles the notifications from Monika. The URL of this server is used in the Monika configuration.
+- `notify-api-netlify`: The [Netlify Functions](https://docs.netlify.com/functions/overview/) app that serves the `notify-api` app.
 - `whatsapp-mock-server`: The mock server that simulates the WhatsApp API for development purposes.
 - `docs`: This documentation app which is using [Fumadocs](https://fumadocs.vercel.app) to generate the documentation.
 
