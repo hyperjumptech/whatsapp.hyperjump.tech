@@ -1,8 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { handleChallenge } from "./handle-challenge.js";
 import { webhookFacebook } from "./webhook-facebook.js";
-import { isDebugEnabled } from "./utils/debug.js";
-import { logger } from "hono/logger";
 import { Hono } from "hono";
 
 vi.mock("@hono/node-server", () => ({
