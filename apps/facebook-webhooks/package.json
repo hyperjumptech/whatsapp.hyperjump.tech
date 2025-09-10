@@ -8,6 +8,12 @@
     "test": "vitest run",
     "coverage": "vitest run --coverage"
   },
+  "exports": {
+    "./app": {
+      "types": "./dist/src/app.d.ts",
+      "default": "./dist/src/app.js"
+    }
+  },
   "dependencies": {
     "@hono/node-server": "^1.19.0",
     "hono": "^4.9.4",

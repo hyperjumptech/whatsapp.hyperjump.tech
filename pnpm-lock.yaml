@@ -200,6 +200,12 @@ importers:
       '@netlify/functions':
         specifier: ^4.2.5
         version: 4.2.5(rollup@4.50.0)
+      '@workspace/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      facebook-webhooks:
+        specifier: workspace:*
+        version: link:../facebook-webhooks
       notify-api:
         specifier: workspace:*
         version: link:../notify-api

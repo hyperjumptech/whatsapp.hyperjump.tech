@@ -15,6 +15,7 @@ export const env = createEnv({
     WHATSAPP_API_PHONE_ID: z.string().min(1),
     WHATSAPP_API_ACCESS_TOKEN: z.string().min(1),
     FACEBOOK_WEBHOOK_VERIFY_TOKEN: z.string().min(1),
+    NETLIFY_APP_NAME: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_BASE_URL: z.string().min(1),

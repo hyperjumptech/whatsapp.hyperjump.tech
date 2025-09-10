@@ -3,11 +3,10 @@
   "type": "module",
   "scripts": {
     "dev": "dotenv -e .env.local -- tsx watch src/index.ts",
-    "build": "tsc && pnpm run fix-netlify-functions",
+    "build": "tsc",
     "start": "dotenv -e .env.local -- node dist/src/index.js",
     "test": "vitest run",
-    "coverage": "vitest run --coverage",
-    "fix-netlify-functions": "./scripts/fix-netlify-functions.sh"
+    "coverage": "vitest run --coverage"
   },
   "exports": {
     "./app": {

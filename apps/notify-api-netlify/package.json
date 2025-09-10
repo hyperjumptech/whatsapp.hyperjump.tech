@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@netlify/functions": "^4.2.5",
+    "@workspace/env": "workspace:*",
+    "facebook-webhooks": "workspace:*",
     "notify-api": "workspace:*"
   },
   "devDependencies": {
