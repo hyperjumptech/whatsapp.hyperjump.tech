@@ -1,25 +1,15 @@
 {
-  "name": "facebook-webhooks",
+  "name": "facebook-webhooks-netlify",
   "type": "module",
   "scripts": {
     "dev": "dotenv -e .env.local -- tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc && pnpm run fix-netlify-functions",
     "start": "dotenv -e .env.local -- node dist/src/index.js",
-    "test": "vitest run",
-    "coverage": "vitest run --coverage"
-  },
-  "exports": {
-    "./app": {
-      "types": "./dist/src/app.d.ts",
-      "default": "./dist/src/app.js"
-    }
+    "fix-netlify-functions": "./scripts/fix-netlify-functions.sh"
   },
   "dependencies": {
-    "@hono/node-server": "^1.19.0",
-    "hono": "^4.9.4",
-    "zod": "^3.22.4",
-    "@workspace/database": "workspace:*",
-    "@workspace/env": "workspace:*"
+    "@netlify/functions": "^4.2.5",
+    "facebook-webhooks": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
@@ -30,8 +20,6 @@
     "dotenv": "^17.2.1",
     "dotenv-cli": "^10.0.0",
     "tsx": "^4.7.1",
-    "typescript": "^5.8.3",
-    "vitest": "^3.0.0",
-    "vite-tsconfig-paths": "^5.1.3"
+    "typescript": "^5.8.3"
   }
 }

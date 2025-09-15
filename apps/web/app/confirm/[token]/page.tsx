@@ -13,7 +13,7 @@ interface ConfirmTokenFormProps {
   error?: string | null;
 }
 
-export const ConfirmTokenForm = ({
+const ConfirmTokenForm = ({
   onConfirm,
   pending,
   error,
