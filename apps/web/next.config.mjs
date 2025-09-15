@@ -11,6 +11,16 @@ const nextConfig = {
 
     return config;
   },
+  async redirects() {
+    return [
+      {
+        // Redirect the original Next.js whatsapp.hyperjump.tech /api/notify end point just in case ther are still some people who are using it
+        source: "/api/notify",
+        destination: `${process.env.NEXT_PUBLIC_MONIKA_NOTIFY_API_URL}/api/notify`,
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
