@@ -49,7 +49,7 @@ function HomeTab() {
 
   return (
     <div className="flex space-x-6">
-      <StaticHomeTab tabs={tabs} />
+      <BaseHomeTab tabs={tabs} />
     </div>
   );
 }
@@ -74,10 +74,10 @@ const placeholderTabs = [
 ];
 
 export const PlaceholderHomeTab = () => {
-  return <StaticHomeTab tabs={placeholderTabs} />;
+  return <BaseHomeTab tabs={placeholderTabs} />;
 };
 
-export const StaticHomeTab = ({
+export const BaseHomeTab = ({
   tabs,
 }: {
   tabs: { href: string; title: string; isActive: boolean }[];

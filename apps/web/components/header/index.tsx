@@ -7,9 +7,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/button";
 
+/**
+ * The main component of the header. It handles all the logic.
+ * @returns
+ */
 export default function Header() {
   const [isMobileMenuCollapsed, setIsMobileMenuCollapsed] = useState(false);
+  return (
+    <BaseHeader
+      isMobileMenuCollapsed={isMobileMenuCollapsed}
+      setIsMobileMenuCollapsed={setIsMobileMenuCollapsed}
+    />
+  );
+}
 
+/**
+ * The base component of the header.
+ * @param param0
+ * @returns
+ */
+export function BaseHeader({
+  isMobileMenuCollapsed,
+  setIsMobileMenuCollapsed,
+}: {
+  isMobileMenuCollapsed: boolean;
+  setIsMobileMenuCollapsed: (isMobileMenuCollapsed: boolean) => void;
+}) {
   return (
     <header className="relative text-white bg-monika-black">
       <div className="px-4 sm:px-6 lg:px-8">

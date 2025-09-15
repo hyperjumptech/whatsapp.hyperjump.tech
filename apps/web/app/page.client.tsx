@@ -6,24 +6,48 @@ import TextInput from "@/components/text-input";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "@/components/button";
+import { useCallback } from "react";
 
 const countryCodePhoneErrorMessage =
   "Phone must starts with valid country code";
 
-// TEST#1
-export default function PageClient() {
-  const {
-    tab,
-    data,
-    errors,
-    setErrorForKey,
-    setDataForKey,
-    handleRegister,
-    handleResend,
-    isPendingRegister,
-    isPendingResend,
-  } = useRegisterResend();
+interface PageClientFormProps {
+  tab: "register" | "resend" | "test-webhook";
+  data: {
+    name: string;
+    phone: string;
+  };
+  errors: {
+    name: string;
+    phone: string;
+    register: string;
+  };
+  onNameChange: (value: string) => void;
+  onPhoneChange: (value: string) => void;
+  onPhoneNotValid: () => void;
+  onRegister: () => void;
+  onResend: () => void;
+  isPendingRegister: boolean;
+  isPendingResend: boolean;
+}
 
+/**
+ * Pure presentational component of the page client. There is no logic here.
+ * @param param0 PageClientFormProps
+ * @returns
+ */
+export const PageClientForm = ({
+  tab,
+  data,
+  errors,
+  onNameChange,
+  onPhoneChange,
+  onPhoneNotValid,
+  onRegister,
+  onResend,
+  isPendingRegister,
+  isPendingResend,
+}: PageClientFormProps) => {
   return (
     <div className="w-full space-y-8">
       {/* TEST#2*/}
@@ -32,10 +56,7 @@ export default function PageClient() {
           data-testid="name-input"
           label="Please enter your name"
           value={data.name}
-          onChange={(e) => {
-            setErrorForKey("name", "");
-            setDataForKey("name", e.target.value);
-          }}
+          onChange={(e) => onNameChange(e.target.value)}
           // TEST#2.1
           errorMessage={errors.name}
         />
@@ -45,16 +66,11 @@ export default function PageClient() {
         label="Please enter your WhatsApp phone number. We will send a message to confirm your number."
         value={data.phone}
         // TEST#3.3
-        handleChangeValue={(value) => {
-          setErrorForKey("phone", "");
-          setDataForKey("phone", value);
-        }}
+        handleChangeValue={onPhoneChange}
         // TEST#3.1
         errorMessage={errors.phone}
         // TEST#3.2
-        handleNotValid={() =>
-          setErrorForKey("phone", countryCodePhoneErrorMessage)
-        }
+        handleNotValid={onPhoneNotValid}
       />
       {/* TEST#4 */}
       {!!errors.register && (
@@ -69,7 +85,7 @@ export default function PageClient() {
           data-testid="submit-button"
           disabled={isPendingRegister}
           // TEST#5.1
-          onClick={() => handleRegister()}>
+          onClick={onRegister}>
           {/* TEST#5.2 */}
           {isPendingRegister ? "Loading..." : "Next"}
         </Button>
@@ -80,11 +96,67 @@ export default function PageClient() {
           data-testid="resend-button"
           disabled={isPendingResend}
           // TEST#6.1
-          onClick={() => handleResend()}>
+          onClick={onResend}>
           {/* TEST#6.2 */}
           {isPendingResend ? "Loading..." : "Resend Instruction"}
         </Button>
       )}
     </div>
+  );
+};
+
+/**
+ * The main component of the page client. It handles all the logic.
+ * @returns
+ */
+export default function PageClient() {
+  const {
+    tab,
+    data,
+    errors,
+    setErrorForKey,
+    setDataForKey,
+    handleRegister,
+    handleResend,
+    isPendingRegister,
+    isPendingResend,
+  } = useRegisterResend();
+
+  const handleNameChange = useCallback(
+    (value: string) => {
+      setErrorForKey("name", "");
+      setDataForKey("name", value);
+    },
+    [setErrorForKey, setDataForKey] as const
+  );
+
+  const handlePhoneChange = useCallback(
+    (value: string) => {
+      setErrorForKey("phone", "");
+      setDataForKey("phone", value);
+    },
+    [setErrorForKey, setDataForKey] as const
+  );
+
+  const handlePhoneNotValid = useCallback(
+    () => {
+      setErrorForKey("phone", countryCodePhoneErrorMessage);
+    },
+    [setErrorForKey] as const
+  );
+
+  return (
+    <PageClientForm
+      tab={tab}
+      data={data}
+      errors={errors}
+      onNameChange={handleNameChange}
+      onPhoneChange={handlePhoneChange}
+      onPhoneNotValid={handlePhoneNotValid}
+      onRegister={handleRegister}
+      onResend={handleResend}
+      isPendingRegister={isPendingRegister}
+      isPendingResend={isPendingResend}
+    />
   );
 }

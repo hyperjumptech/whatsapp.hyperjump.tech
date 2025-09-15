@@ -17,6 +17,10 @@ export async function DeletePage({
     notFound();
   }
 
+  return <BaseDeletePage token={token} />;
+}
+
+export const BaseDeletePage = ({ token }: { token: string }) => {
   return (
     <div className="w-full md:w-8/12 lg:w-6/12 space-y-4 pt-10">
       <FontAwesomeIcon
@@ -24,7 +28,6 @@ export async function DeletePage({
         className="text-2xl md:text-3xl lg:text-5xl"
         icon={faExclamationTriangle}
       />
-      {/* TEST#1 */}
       <h1 className="text-xl md:text-2xl lg:text-4xl font-bold">
         Delete Account
       </h1>
@@ -35,4 +38,4 @@ export async function DeletePage({
       <DeleteButton token={token} />
     </div>
   );
-}
+};

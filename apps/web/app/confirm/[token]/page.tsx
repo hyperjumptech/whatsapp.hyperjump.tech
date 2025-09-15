@@ -7,9 +7,17 @@ import {
   AlertTitle,
 } from "@workspace/ui/components/alert";
 
-export default function ConfirmTokenPage() {
-  const { confirmToken, pending, error } = useConfirmToken();
+interface ConfirmTokenFormProps {
+  onConfirm: () => void;
+  pending: boolean;
+  error?: string | null;
+}
 
+export const ConfirmTokenForm = ({
+  onConfirm,
+  pending,
+  error,
+}: ConfirmTokenFormProps) => {
   return (
     <div className="w-full md:w-8/12 lg:w-6/12 space-y-4 py-20">
       {/* TEST#1 */}
@@ -26,11 +34,23 @@ export default function ConfirmTokenPage() {
       {/* TEST#3 */}
       <Button
         // TEST#4
-        onClick={confirmToken}
+        onClick={onConfirm}
         // TEST#5
         disabled={pending}>
         Confirm registration
       </Button>
     </div>
+  );
+};
+
+export default function ConfirmTokenPage() {
+  const { confirmToken, pending, error } = useConfirmToken();
+
+  return (
+    <ConfirmTokenForm
+      onConfirm={confirmToken}
+      pending={pending}
+      error={error}
+    />
   );
 }

@@ -150,6 +150,7 @@ describe("useRegisterResend", () => {
 
     // Verify isPendingRegister is true while promise is pending
     expect(result.current.isPendingRegister).toBe(true);
+    expect(result.current.isPendingResend).toBe(false);
 
     // Now resolve the promise
     act(() => {

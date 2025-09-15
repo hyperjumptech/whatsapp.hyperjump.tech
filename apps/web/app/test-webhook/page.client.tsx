@@ -15,18 +15,25 @@ import {
   explanation,
 } from "@workspace/whatsapp/action-template";
 
-export default function TestWebhookPage() {
-  const {
-    url,
-    setUrl,
-    type,
-    setType,
-    errorMessage,
-    submitTestWebhook,
-    // TEST#6
-    pending,
-  } = useTestWebhook();
+interface TestWebhookFormProps {
+  url: string;
+  setUrl: (url: string) => void;
+  type: keyof typeof actionTemplate;
+  setType: (type: keyof typeof actionTemplate) => void;
+  errorMessage: string;
+  submitTestWebhook: () => void;
+  pending: boolean;
+}
 
+export const TestWebhookForm = ({
+  url,
+  setUrl,
+  type,
+  setType,
+  errorMessage,
+  submitTestWebhook,
+  pending,
+}: TestWebhookFormProps) => {
   return (
     <div className="w-full space-y-8">
       {/* TEST#1 */}
@@ -84,4 +91,31 @@ export default function TestWebhookPage() {
       </Button>
     </div>
   );
-}
+};
+
+const TestWebhookPage = () => {
+  const {
+    url,
+    setUrl,
+    type,
+    setType,
+    errorMessage,
+    submitTestWebhook,
+    // TEST#6
+    pending,
+  } = useTestWebhook();
+
+  return (
+    <TestWebhookForm
+      url={url}
+      setUrl={setUrl}
+      type={type}
+      setType={setType}
+      errorMessage={errorMessage}
+      submitTestWebhook={submitTestWebhook}
+      pending={pending}
+    />
+  );
+};
+
+export default TestWebhookPage;
