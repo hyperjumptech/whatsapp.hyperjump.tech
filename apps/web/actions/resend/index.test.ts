@@ -38,6 +38,7 @@ describe(`actions/resend`, () => {
   afterEach(async () => {
     await testDb.cleanup();
     vi.clearAllMocks();
+    vi.resetAllMocks();
   });
 
   it(`TEST#1: should return error if the request is invalid`, async () => {
@@ -65,7 +66,6 @@ describe(`actions/resend`, () => {
     // act
     const resend = resendActionCreator(testDb.getPrismaClient());
     const result = await resend({
-      name: "John Doe",
       phone: "1234567890",
     });
 
@@ -80,7 +80,7 @@ describe(`actions/resend`, () => {
       data: {
         token: "1234567890",
         resendAt: new Date(Date.now() + 10000),
-        user: "1234567890",
+        user: "+1234567890",
         name: "John Doe",
       },
     });
@@ -88,7 +88,6 @@ describe(`actions/resend`, () => {
     // act
     const resend = resendActionCreator(testDb.getPrismaClient());
     const result = await resend({
-      name: "John Doe",
       phone: "1234567890",
     });
 
@@ -104,7 +103,7 @@ describe(`actions/resend`, () => {
       data: {
         token: "1234567890",
         resendAt: new Date(Date.now() - 10000),
-        user: "1234567890",
+        user: "+1234567890",
         name: "John Doe",
       },
     });
@@ -112,13 +111,12 @@ describe(`actions/resend`, () => {
     // act
     const resend = resendActionCreator(testDb.getPrismaClient());
     const result = await resend({
-      name: "John Doe",
-      phone: "1234567890",
+      phone: "+1234567890",
     });
 
     // assert
     expect(sendInstructionMessage).toHaveBeenCalledWith({
-      phone: "1234567890",
+      phone: "+1234567890",
       webhookToken: "1234567890",
     });
     expect(result).toBeUndefined();
@@ -132,7 +130,7 @@ describe(`actions/resend`, () => {
       data: {
         token: "1234567890",
         resendAt: new Date(Date.now() - 10000),
-        user: "1234567890",
+        user: "+1234567890",
         name: "John Doe",
       },
     });
@@ -140,7 +138,6 @@ describe(`actions/resend`, () => {
     // act
     const resend = resendActionCreator(testDb.getPrismaClient());
     const result = await resend({
-      name: "John Doe",
       phone: "1234567890",
     });
 
@@ -157,7 +154,7 @@ describe(`actions/resend`, () => {
       data: {
         token: "1234567890",
         resendAt: new Date(Date.now() - 10000),
-        user: "1234567890",
+        user: "+1234567890",
         name: "John Doe",
       },
     });
@@ -165,7 +162,29 @@ describe(`actions/resend`, () => {
     // act
     const resend = resendActionCreator(testDb.getPrismaClient());
     await resend({
-      name: "John Doe",
+      phone: "1234567890",
+    });
+
+    // assert
+    expect(redirect).toHaveBeenCalledWith("/confirmed");
+  });
+
+  it("TEST#6: should successfully resend the instruction when received phone number is not prefixed with +", async () => {
+    // setup
+    vi.mocked(sendInstructionMessage).mockResolvedValue(undefined);
+
+    await testDb.getPrismaClient().webhook_token.create({
+      data: {
+        token: "1234567890",
+        resendAt: new Date(Date.now() - 10000),
+        user: "+1234567890",
+        name: "John Doe",
+      },
+    });
+
+    // act
+    const resend = resendActionCreator(testDb.getPrismaClient());
+    await resend({
       phone: "1234567890",
     });
 

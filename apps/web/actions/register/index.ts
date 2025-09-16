@@ -13,7 +13,7 @@ import { getUserByPhoneHash } from "@/lib/repositories/user";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { sendConfirmPhoneMessage } from "@workspace/whatsapp/send-message";
-import { normalizePhone } from "./phone";
+import { normalizePhone } from "@workspace/utils/phone";
 
 /**
  * This object contains the error codes that can be returned by the register function.

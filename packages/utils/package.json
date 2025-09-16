@@ -27,6 +27,10 @@
     "./url": {
       "types": "./src/url.ts",
       "default": "./dist/url.js"
+    },
+    "./phone": {
+      "types": "./src/phone.ts",
+      "default": "./dist/phone.js"
     }
   },
   "dependencies": {
