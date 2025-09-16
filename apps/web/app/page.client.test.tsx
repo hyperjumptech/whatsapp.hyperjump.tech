@@ -248,6 +248,28 @@ describe("PageClient", () => {
     expect(screen.getByText("Something went wrong")).toBeInTheDocument();
   });
 
+  test("TEST#4.1: should render error resend", () => {
+    vi.mocked(useRegisterResend).mockReturnValue({
+      tab: "register",
+      data: { name: "", phone: "" },
+      errors: {
+        register: "",
+        resend: "Something went wrong",
+        phone: "",
+        name: "",
+      },
+      setErrorForKey: vi.fn(),
+      setDataForKey: vi.fn(),
+      clearErrors: vi.fn(),
+      handleRegister: vi.fn(),
+      handleResend: vi.fn(),
+      isPendingRegister: false,
+      isPendingResend: false,
+    });
+    render(<PageClient />);
+    expect(screen.getByText("Something went wrong")).toBeInTheDocument();
+  });
+
   test("TEST#5: should render submit button", () => {
     vi.mocked(useRegisterResend).mockReturnValue({
       tab: "register",

@@ -26,7 +26,6 @@ export const errorCodes = {
  * This schema is used to validate the data passed to the resend function.
  */
 const resendSchema = z.object({
-  name: z.string().min(3),
   phone: z.string().min(10),
 });
 /**

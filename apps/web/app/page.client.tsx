@@ -12,24 +12,19 @@ import { Tab } from "@/hooks/use-home-tab";
 const countryCodePhoneErrorMessage =
   "Phone must starts with valid country code";
 
+type UseRegisterResend = ReturnType<typeof useRegisterResend>;
+
 interface PageClientFormProps {
-  tab: Tab;
-  data: {
-    name: string;
-    phone: string;
-  };
-  errors: {
-    name: string;
-    phone: string;
-    register: string;
-  };
+  tab: UseRegisterResend["tab"];
+  data: UseRegisterResend["data"];
+  errors: UseRegisterResend["errors"];
   onNameChange: (value: string) => void;
   onPhoneChange: (value: string) => void;
   onPhoneNotValid: () => void;
   onRegister: () => void;
   onResend: () => void;
-  isPendingRegister: boolean;
-  isPendingResend: boolean;
+  isPendingRegister: UseRegisterResend["isPendingRegister"];
+  isPendingResend: UseRegisterResend["isPendingResend"];
 }
 
 /**
@@ -78,6 +73,13 @@ export const PageClientForm = ({
         <div className="flex">
           <FontAwesomeIcon className="m-1 ml-0" icon={faTimesCircle} />
           <p className="font-bold">{errors.register}</p>
+        </div>
+      )}
+      {/* TEST#4.1 */}
+      {!!errors.resend && (
+        <div className="flex">
+          <FontAwesomeIcon className="m-1 ml-0" icon={faTimesCircle} />
+          <p className="font-bold">{errors.resend}</p>
         </div>
       )}
       {/* TEST#5 */}

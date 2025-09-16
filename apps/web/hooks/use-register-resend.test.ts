@@ -199,7 +199,7 @@ describe("useRegisterResend", () => {
       return deferredPromise;
     });
 
-    const { result } = renderHook(() => useRegisterResend());
+    const { result, rerender } = renderHook(() => useRegisterResend());
 
     // Set some data to pass validation
     await act(async () => {
@@ -224,6 +224,8 @@ describe("useRegisterResend", () => {
     await waitFor(() => {
       expect(result.current.isPendingResend).toBe(false);
     });
+
+    expect(result.current.errors.resend).toBe("Resend Error");
   });
 
   test("TEST#7: should return default tab", async () => {

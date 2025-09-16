@@ -44,8 +44,8 @@ describe(`actions/resend`, () => {
     // act
     const resend = resendActionCreator(testDb.getPrismaClient());
     const result = await resend({
-      name: "Jo",
-      phone: "1234567890",
+      // @ts-expect-error - we want to test the invalid type
+      phonee: "1234567890",
     });
 
     // assert
