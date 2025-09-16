@@ -1,4 +1,4 @@
-import { normalizePhone } from "./phone";
+import { normalizePhone } from "./phone.js";
 import { describe, it, expect } from "vitest";
 
 describe("normalizePhone", () => {

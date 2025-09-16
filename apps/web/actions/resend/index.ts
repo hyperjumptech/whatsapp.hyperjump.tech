@@ -12,6 +12,7 @@ import {
   getWebhookByUser,
   updateWebhookResendAt,
 } from "@/lib/repositories/webhook-token";
+import { normalizePhone } from "@workspace/utils/phone";
 
 /**
  * This object contains the error codes that can be returned by the resend function.
@@ -37,7 +38,6 @@ const resendSchema = z.object({
  * @returns The error code if the data is invalid.
  */
 const resend = async (data: {
-  name: string;
   phone: string;
 }): Promise<
   | undefined
@@ -54,7 +54,10 @@ const resend = async (data: {
     };
   }
 
-  const webhook = await getWebhookByUser(parseResult.data.phone);
+  // The phone number is prefixed with + if it is not already.
+  const normalizedPhone = normalizePhone(parseResult.data.phone);
+
+  const webhook = await getWebhookByUser(normalizedPhone);
 
   if (!webhook) {
     // TEST#2
