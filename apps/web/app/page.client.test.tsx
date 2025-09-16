@@ -324,7 +324,7 @@ describe("PageClient", () => {
 
   test("TEST#6: should render resend button", () => {
     vi.mocked(useRegisterResend).mockReturnValue({
-      tab: "resend",
+      tab: "resend-instruction",
       data: { name: "", phone: "" },
       errors: {
         register: "",
@@ -346,7 +346,7 @@ describe("PageClient", () => {
 
   test("TEST#6.2: should render resend button with loading state", () => {
     vi.mocked(useRegisterResend).mockReturnValue({
-      tab: "resend",
+      tab: "resend-instruction",
       data: { name: "", phone: "" },
       errors: {
         register: "",
@@ -372,7 +372,7 @@ describe("PageClient", () => {
   test("TEST#6.1: should call handleResend when resend button is clicked", () => {
     const handleResend = vi.fn();
     vi.mocked(useRegisterResend).mockReturnValue({
-      tab: "resend",
+      tab: "resend-instruction",
       data: { name: "", phone: "" },
       errors: {
         register: "",

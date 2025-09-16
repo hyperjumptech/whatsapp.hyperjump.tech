@@ -7,12 +7,13 @@ import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "@/components/button";
 import { useCallback } from "react";
+import { Tab } from "@/hooks/use-home-tab";
 
 const countryCodePhoneErrorMessage =
   "Phone must starts with valid country code";
 
 interface PageClientFormProps {
-  tab: "register" | "resend" | "test-webhook";
+  tab: Tab;
   data: {
     name: string;
     phone: string;
@@ -91,7 +92,7 @@ export const PageClientForm = ({
         </Button>
       )}
       {/* TEST#6 */}
-      {tab === "resend" && (
+      {tab === "resend-instruction" && (
         <Button
           data-testid="resend-button"
           disabled={isPendingResend}

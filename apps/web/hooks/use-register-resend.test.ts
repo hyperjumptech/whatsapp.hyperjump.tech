@@ -235,13 +235,13 @@ describe("useRegisterResend", () => {
     vi.mocked(useSearchParams).mockReturnValue({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       get: (_key: string) => {
-        return "resend";
+        return "resend-instruction";
       },
     } as ReadonlyURLSearchParams);
 
     const { result } = renderHook(() => useRegisterResend());
 
-    expect(result.current.tab).toBe("resend");
+    expect(result.current.tab).toBe("resend-instruction");
   });
 
   test("TEST#9: validateData should return error when name is less than 3 characters ", async () => {
