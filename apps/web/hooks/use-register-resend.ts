@@ -1,7 +1,13 @@
 import { register } from "@/actions/register/action";
 import { resend } from "@/actions/resend/action";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { Tab } from "./use-home-tab";
 
 export const validateData = (
@@ -93,6 +99,12 @@ export const useRegisterResend = () => {
 
   // TEST#7
   const tab = (searchParams.get("tab") as Tab) ?? "register";
+
+  // TEST#12
+  useEffect(() => {
+    // When the tab changes, clear the errors
+    clearErrors();
+  }, [tab]);
 
   // TEST#5
   const handleRegister = useCallback(async () => {

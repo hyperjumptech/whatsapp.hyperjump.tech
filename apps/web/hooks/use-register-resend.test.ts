@@ -26,6 +26,7 @@ vi.mock("@/actions/resend/action", () => ({
 
 describe("useRegisterResend", () => {
   afterEach(() => {
+    vi.resetAllMocks();
     vi.clearAllMocks();
   });
 
@@ -263,5 +264,26 @@ describe("useRegisterResend", () => {
     const errors = validateData(data, "register");
 
     expect(errors).toBeUndefined();
+  });
+
+  test("TEST#12: should clear errors when the tab changes", async () => {
+    const { result, rerender } = renderHook(() => useRegisterResend());
+
+    await act(async () => {
+      result.current.setErrorForKey("register", "Register error");
+    });
+
+    expect(result.current.errors.register).toBe("Register error");
+
+    vi.mocked(useSearchParams).mockReturnValue({
+      get: (_key: string) => {
+        return "resend-instruction";
+      },
+    } as ReadonlyURLSearchParams);
+
+    // trigger the useEffect by re-rendering the hook
+    rerender();
+
+    expect(result.current.errors.register).toBe("");
   });
 });
