@@ -2,12 +2,12 @@ import { z } from "zod";
 import { actionTemplate } from "@workspace/whatsapp/action-template";
 
 type ActionType = keyof typeof actionTemplate;
-type StartTerminateAction = Extract<ActionType, "start" | "terminate">;
-type IncidentRecoveryAction = Extract<
+export type StartTerminateAction = Extract<ActionType, "start" | "terminate">;
+export type IncidentRecoveryAction = Extract<
   ActionType,
   "incident" | "recovery" | "incident-symon" | "recovery-symon"
 >;
-type StatusUpdateAction = Extract<ActionType, "status-update">;
+export type StatusUpdateAction = Extract<ActionType, "status-update">;
 
 const startTerminateActionTypes: StartTerminateAction[] = [
   "start",

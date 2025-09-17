@@ -40,7 +40,12 @@ export const createApp = () => {
         body,
       });
 
-      return c.json(error ? { error } : null, status);
+      if (error) {
+        console.error("[FACEBOOK WEBHOOK] Error:", error);
+        return c.json({ error }, status);
+      }
+
+      return c.status(status);
     })
   );
 
