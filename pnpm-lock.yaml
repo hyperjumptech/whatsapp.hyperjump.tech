@@ -321,8 +321,8 @@ importers:
         version: 3.25.76
     devDependencies:
       '@netlify/plugin-nextjs':
-        specifier: ^5.13.0
-        version: 5.13.0
+        specifier: ^5.13.3
+        version: 5.13.3
       '@playwright/test':
         specifier: ^1.54.2
         version: 1.54.2
@@ -1468,8 +1468,8 @@ packages:
     resolution: {integrity: sha512-aL9DP/BpXNq86p4zCuWOgqd1a8Nvnbip9iiMuY5EcWzyAuiEPFeGnIUIGuGtBGtMnDE9AedUl+w9vXJZyDa1pQ==}
     engines: {node: '>=18.0.0'}
 
-  '@netlify/plugin-nextjs@5.13.0':
-    resolution: {integrity: sha512-sOhMUITRmcQDFf+ppAhZwecCE2kDCV8nVWe3fwTkNThpKoXBcpKVECL07IkBv5fJLxp/kODy346OaCk6FI9MAg==}
+  '@netlify/plugin-nextjs@5.13.3':
+    resolution: {integrity: sha512-QIEsiTLEySyXroAOhstY01xROokOFojTkhzqhewQAMddbqDrVaCUI6w649R/1MJ0XcD6cB3se/dn8KJXh40HLw==}
     engines: {node: '>=18.0.0'}
 
   '@netlify/runtime-utils@2.1.0':
@@ -7617,7 +7617,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@netlify/plugin-nextjs@5.13.0': {}
+  '@netlify/plugin-nextjs@5.13.3': {}
 
   '@netlify/runtime-utils@2.1.0': {}
 
