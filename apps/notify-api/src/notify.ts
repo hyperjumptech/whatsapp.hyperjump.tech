@@ -7,6 +7,7 @@ import { getWebhookByToken } from "./webhook-token.js";
 import { getUserByPhoneHash } from "./user.js";
 import { notifyQuerySchema, notifyBodySchema } from "./validation.js";
 import { ContentfulStatusCode } from "hono/utils/http-status";
+import { getNotifyType, saveNotifyLog } from "./notify-log.js";
 
 /**
  * This is the object for the errors.
@@ -114,6 +115,13 @@ export const notify = async ({
       });
       break;
   }
+
+  // TEST#13
+  await saveNotifyLog({
+    userId: user.phoneHash,
+    type: getNotifyType(type),
+  });
+
   // TEST#12
   return { message: "Message sent", status: 200 };
 };

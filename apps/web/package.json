@@ -33,7 +33,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^5.13.0",
+    "@netlify/plugin-nextjs": "^5.13.3",
     "@playwright/test": "^1.54.2",
     "@prisma/nextjs-monorepo-workaround-plugin": "^6.15.0",
     "@tailwindcss/postcss": "^4.1.11",

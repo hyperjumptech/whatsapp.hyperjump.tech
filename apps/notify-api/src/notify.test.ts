@@ -470,4 +470,50 @@ describe("notify", () => {
     // assert
     expect(result).toEqual({ message: "Message sent", status: 200 });
   });
+
+  it("TEST#13: should save notify log", async () => {
+    // setup
+    const prisma = testDb.getPrismaClient();
+    await prisma.webhook_token.create({
+      data: {
+        token: "test",
+        user: "test",
+        name: "test",
+      },
+    });
+    await prisma.users.create({
+      data: {
+        phoneHash: "test",
+        name: "test",
+      },
+    });
+
+    // act
+    const result = await runWithContext({ prisma }, async () => {
+      return await notify({
+        query: { token: "test" },
+        body: {
+          type: "status-update",
+          ip_address: "127.0.0.1",
+          time: "test",
+          monika: "test",
+          numberOfProbes: 1,
+          averageResponseTime: 1,
+          numberOfIncidents: 1,
+          numberOfRecoveries: 1,
+          numberOfSentNotifications: 1,
+        },
+      });
+    });
+    // assert
+    const notifyLog = await prisma.notify_logs.findFirst({
+      where: {
+        userId: "test",
+        type: "status_update",
+      },
+    });
+    expect(notifyLog).toBeDefined();
+    expect(notifyLog?.userId).toBe("test");
+    expect(notifyLog?.type).toBe("status_update");
+  });
 });

@@ -12,6 +12,9 @@ generator client {
     output   = "../src/generated"
 }
 
+/**
+ * The table that stores the registration information.
+ */
 model registrations {
     phoneHash String    @id
     name      String
@@ -21,24 +24,55 @@ model registrations {
     updatedAt DateTime?
 }
 
+/**
+ * The table that stores the user information.
+ */
 model users {
-    phoneHash String    @id
-    name      String
-    createdAt DateTime  @default(now())
-    updatedAt DateTime?
+    phoneHash   String        @id
+    name        String
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime?
+    notify_logs notify_logs[]
 }
 
+/**
+ * The table that stores the webhook token information.
+ */
 model webhook_token {
     token     String    @id @default(uuid())
     name      String
-    user      String
+    user      String // phoneHash
     createdAt DateTime  @default(now())
     resendAt  DateTime?
 }
 
+/**
+ * The table that stores the webhook logs received from Facebook.
+ */
 model webhook_logs {
     id        BigInt   @id @default(autoincrement())
     logs      Json
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now())
+}
+
+enum NotifyType {
+    start
+    terminate
+    incident
+    recovery
+    status_update
+}
+
+/**
+ * The table that logs the notification request from Monika.
+ */
+model notify_logs {
+    id        BigInt     @id @default(autoincrement())
+    userId    String
+    user      users      @relation(fields: [userId], references: [phoneHash])
+    type      NotifyType
+    createdAt DateTime   @default(now())
+
+    @@index([userId])
 }

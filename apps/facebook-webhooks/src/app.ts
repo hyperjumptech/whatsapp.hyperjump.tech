@@ -16,6 +16,7 @@ export const createApp = () => {
   }
 
   app.get("/", (c) => {
+    // TEST#1
     return c.json({
       message: "Facebook Webhooks Server",
       version: "1.0.0",
@@ -26,6 +27,7 @@ export const createApp = () => {
     const queries = c.req.query();
     const { status, message } = await handleChallenge(queries);
 
+    // TEST#2
     return c.text(message, status);
   });
 
@@ -40,7 +42,14 @@ export const createApp = () => {
         body,
       });
 
-      return c.json(error ? { error } : null, status);
+      if (error) {
+        console.error("[FACEBOOK WEBHOOK] Error:", error);
+        // TEST#3
+        return c.json({ error }, status);
+      }
+
+      // TEST#4
+      return c.text("OK", status);
     })
   );
 
@@ -50,6 +59,7 @@ export const createApp = () => {
     withDbContextFunction(async (c) => {
       const { prisma } = getDbContext();
       const webhookLogs = await prisma.webhook_logs.count();
+      // TEST#5
       return c.json({
         status: "healthy",
         timestamp: new Date().toISOString(),
@@ -61,6 +71,7 @@ export const createApp = () => {
 
   // 404 handler for unmatched routes
   app.notFound((c) => {
+    // TEST#6
     return c.json(
       {
         error: {
@@ -75,6 +86,7 @@ export const createApp = () => {
   app.onError((err, c) => {
     console.error("[MOCK SERVER] Unhandled error:", err);
 
+    // TEST#7
     return c.json(
       {
         error: {
