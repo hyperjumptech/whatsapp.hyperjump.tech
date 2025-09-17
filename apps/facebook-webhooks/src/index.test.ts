@@ -83,7 +83,7 @@ describe("index", () => {
     expect(await res.json()).toEqual({ error: "error" });
   });
 
-  it("TEST#3: POST /api/webhook/facebook: should return the correct response when there is no error", async () => {
+  it("TEST#4: POST /api/webhook/facebook: should return the correct response when there is no error", async () => {
     vi.mocked(webhookFacebook).mockResolvedValue({
       status: 200,
     });
@@ -92,10 +92,10 @@ describe("index", () => {
       body: JSON.stringify({}),
     });
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual(null);
+    expect(await res.text()).toBe("OK");
   });
 
-  it("TEST#4: GET /health: should return the correct response", async () => {
+  it("TEST#5: GET /health: should return the correct response", async () => {
     const res = await app.request("/health");
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({
@@ -106,7 +106,7 @@ describe("index", () => {
     });
   });
 
-  it("TEST#5: GET /notfound: should return the correct response", async () => {
+  it("TEST#6: GET /notfound: should return the correct response", async () => {
     const res = await app.request("/notfound");
     expect(res.status).toBe(404);
     expect(await res.json()).toEqual({
