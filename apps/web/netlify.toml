@@ -1,2 +1,6 @@
+[build]
+  command = "turbo run build --filter web --framework-inference=false --env-mode=loose && turbo run deploy --filter @workspace/database --framework-inference=false --env-mode=loose"
+  publish = ".next"
+
 [[plugins]]
 package = "@netlify/plugin-nextjs"

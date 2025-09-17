@@ -43,6 +43,10 @@
     "coverage": {
       "dependsOn": ["^coverage"],
       "outputs": ["coverage/**"]
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "cache": false
     }
   }
 }
