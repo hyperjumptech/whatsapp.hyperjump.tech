@@ -30,3 +30,14 @@ The project is using a monorepo structure using [Turborepo](https://turbo.build/
 - `eslint-config-custom`: The package that contains the custom eslint config which can be used in other apps and packages.
 - `typescript-config`: The package that contains the typescript config which can be used in other apps and packages.
 - `utils`: The package that contains the utility functions which can be used in other apps and packages.
+
+## The flow
+
+The 3 main apps in this project are [web](/docs/web/intro), [notify-api](/docs/notify-api/intro), and [facebook-webhooks](/docs/facebook-webhooks/intro). The main flow of the project is as follows:
+
+1. User visits the `web` app to register their WhatsApp number.
+2. The `web` app generates a unique webhook URL and sends it to the user via WhatsApp. The webhook URL points to the `notify-api` app.
+3. When Monika sends a notification to the `notify-api` app, the `notify-api` app will send the notification to the WhatsApp number.
+4. The `facebook-webhooks` app will receive the webhook request from Facebook and store the event to the database.
+
+![The flow of the project](/images/user-flow.png)

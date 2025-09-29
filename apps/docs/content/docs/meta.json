@@ -13,7 +13,10 @@
     "web/features",
     "---Notify API---",
     "notify-api/intro",
-    "notify-api/api"
+    "notify-api/api",
+    "---Facebook Webhooks---",
+    "facebook-webhooks/intro",
+    "facebook-webhooks/api"
   ],
   "defaultOpen": true
 }

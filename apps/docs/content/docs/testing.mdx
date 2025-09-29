@@ -3,7 +3,16 @@ title: Testing
 description: Testing for the project
 ---
 
-This project uses [vitest](https://vitest.dev) to write tests. To run the tests, you need to run the following command first from the root of the monorepo project:
+## About
+
+This project uses
+
+- [vitest](https://vitest.dev) to write tests
+- [react-testing-library](https://testing-library.com/docs/react-testing-library/intro/) to write tests for the React components
+
+## Running tests
+
+To run the tests, you need to run the following command first from the root of the monorepo project:
 
 ```bash
 docker-compose up
@@ -16,6 +25,8 @@ Then run the tests with the following command from the root of the monorepo proj
 ```bash
 pnpm run test
 ```
+
+## Coverage
 
 To run the tests for all apps and packages with coverage, you can run the following command from the root of the monorepo project:
 
@@ -36,3 +47,12 @@ To run the tests with coverage inside the `web` app, you can run the following c
 ```bash
 pnpm run coverage
 ```
+
+## React Server Components
+
+Unfortunately, react-testing-library does not support React Server Components (RSC) yet. Fortunately, someone already created a small helper to test RSC. You can find the helper in the `@workspace/utils` package, in the `test-async-rsc.ts` file.
+
+## Notes
+
+- In this project, you will see that we write `TEST#<number>` comments in the code to indicate the test case. This is very useful to keep track of the test cases and to know quickly which part of the code is being tested in the test cases.
+- We do something that is not very common here. We do not mock the prisma client in most of the tests. Instead, we use a test database. Each test will create a new schema in the test database. See [packages/database/src/test-utils.ts](https://github.com/hyperjumptech/whatsapp.hyperjump.tech/blob/main/packages/database/src/test-utils.ts) for more information. Then the function that is being tested will use the test database through the dependency injection mechanism, i.e., [async local storage](https://nico.fyi/blog/async-local-storage-to-prevent-props-drilling) to provide the database context. See the tests for more information.

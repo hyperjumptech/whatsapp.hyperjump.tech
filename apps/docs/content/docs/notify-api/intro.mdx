@@ -3,6 +3,8 @@ title: Introduction
 description: Introduction to the notify-api
 ---
 
+## About
+
 The notify-api is the backend of the Monika Notification Service. It is built with
 
 - [Hono](https://hono.dev)
@@ -12,6 +14,24 @@ The notify-api is the backend of the Monika Notification Service. It is built wi
 
 The main app server is in the `apps/notify-api` directory. It contains the main implementation and the tests of the notify-api.
 
-On the other hand, the production API is currently (as of September 2025) deployed on [Netlify Functions](https://docs.netlify.com/functions/overview/) from the `apps/notify-api-netlify` app. This `notify-api-netlify` app imports the `notify-api` app and serves it as a Netlify Function.
+The production API is currently (as of September 2025) deployed on [Netlify Functions](https://docs.netlify.com/functions/overview/) from the `apps/notify-api-netlify` app. This `notify-api-netlify` app imports the `notify-api` app and serves it as a Netlify Function.
 
 This separation is done to make it easier to deploy the API to other platforms like AWS Lambda, Azure Functions, etc, if needed. Simply create another app that imports the `notify-api` app and serves it as a function.
+
+## Features
+
+The main feature of the notify-api is to send notifications from Monika to users via WhatsApp.
+
+When the user registers their WhatsApp number via the main [web app](/docs/web/intro), they will be given a unique webhook URL to use in their Monika configuration. This webhook URL points to the this notify-api app. For example, the webhook URL will look like this:
+
+```
+https://monika-notify-api.netlify.app/api/notify?token=some_random_token
+```
+
+The `token` is the unique webhook token that was generated when the user registered their WhatsApp number. This token is used to authenticate the notify request from Monika.
+
+User can only send several types of notifications to WhatsApp. The types are:
+
+- Start/Terminate Actions
+- Incident/Recovery Actions
+- Status Update Actions

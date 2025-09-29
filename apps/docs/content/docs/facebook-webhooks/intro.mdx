@@ -1,0 +1,24 @@
+---
+title: Introduction
+description: Introduction to the facebook webhooks server
+---
+
+## About
+
+The facebook webhooks server is the API endpoints that handle the webhooks from Facebook. It is built with
+
+- [Hono](https://hono.dev)
+- [TypeScript](https://www.typescriptlang.org)
+- [Prisma](https://www.prisma.io)
+- [PostgreSQL](https://www.postgresql.org)
+
+The main app server is in the `apps/facebook-webhooks` directory. It contains the main implementation and the tests of the facebook webhooks server.
+
+The production API is currently (as of September 2025) deployed on [Netlify Functions](https://docs.netlify.com/functions/overview/) from the `apps/facebook-webhooks-netlify` app. This `facebook-webhooks-netlify` app imports the `facebook-webhooks` app and serves it as a Netlify Function.
+
+This separation is done to make it easier to deploy the API to other platforms like AWS Lambda, Azure Functions, etc, if needed. Simply create another app that imports the `notify-api` app and serves it as a function.
+
+## Features
+
+- Handle the challenge request from Facebook.
+- Handle the Event Notification from Facebook.

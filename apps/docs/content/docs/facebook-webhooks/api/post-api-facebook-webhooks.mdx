@@ -1,0 +1,75 @@
+---
+title: POST /api/webhook/facebook
+description: POST /api/webhook/facebook
+---
+
+## About
+
+This endpoint is used to handle the Event Notification from Facebook. In this project, we only subscribe to the changes on the `messages` field on the `whatsapp_business_account` object. This means that we will only receive notifications when a message is sent and delivered.
+
+## Verifying the Request
+
+### Validating the Signature
+
+The request from Facebook will have a header signature in the `x-hub-signature-256` header.
+
+The signature is then validated using the `validateSignature` function. The function will use the `FACEBOOK_WEBHOOK_APP_SECRET` environment variable to validate the signature.
+
+### Validating the Payload
+
+As of September 2025, there seems to be a bug in the webhook system where the event notification is sent to all apps in the same business account. This means there were many unnecessary requests to this endpoint.
+
+To ignore unrelated webhook notifications, we validate the payload by checking the `phone_number_id` field. This field is set to the phone number id of the app that is registered in the App Dashboard.
+
+## Payload example
+
+This is an example of the payload:
+
+```json
+{
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "101077456168414",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "628121234566",
+              "phone_number_id": "111111111111111"
+            },
+            "statuses": [
+              {
+                "id": "wamid.somerandomid",
+                "status": "delivered",
+                "timestamp": "1758003264",
+                "recipient_id": "666666666666666",
+                "conversation": {
+                  "id": "29ccd51d964e1b6ecdf5215332a3780c",
+                  "origin": { "type": "utility" }
+                },
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "PMP",
+                  "category": "utility",
+                  "type": "regular"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## Saving the notification
+
+Once the request is validated, we save the notification to the database in the `webhook_logs` table.
+
+## Reference
+
+- [Facebook Webhooks Event Notification](https://developers.facebook.com/docs/graph-api/webhooks/getting-started#event-notifications)

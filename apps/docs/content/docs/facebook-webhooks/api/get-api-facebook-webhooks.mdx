@@ -1,0 +1,24 @@
+---
+title: GET /api/webhook/facebook
+description: GET /api/webhook/facebook
+---
+
+This endpoint is used to handle the challenge request from Facebook.
+
+## Query Parameters
+
+- `hub.challenge`: The challenge token from Facebook which must be returned in the response.
+- `hub.verify_token`: The verify token that was set when we registered the webhook. It is the value of "Verify Token" field in the App Dashboard.
+- `hub.mode`: The mode from Facebook. This value is always `subscribe`.
+
+## Validating Verification Requests
+
+Whenever this endpoint receives a verification request, it will:
+
+- Verify that the `hub.verify_token` value matches the string set in `FACEBOOK_WEBHOOK_VERIFY_TOKEN` environment variable.
+- Respond with the `hub.challenge` value.
+
+## Reference
+
+- [Facebook Webhooks Verification Requests](https://developers.facebook.com/docs/graph-api/webhooks/getting-started/#verification-requests)
+- The app dashboard can be accessed from `https://developers.facebook.com/apps/{app_id}/webhooks/?business_id={whatsapp_business_account_id}`. Replace `{app_id}` with the app id and `{whatsapp_business_account_id}` with the whatsapp business account id.
