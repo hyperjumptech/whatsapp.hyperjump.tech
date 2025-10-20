@@ -62,8 +62,6 @@ describe("context helpers", () => {
       ],
     });
 
-    vi.mocked(uuidv4).mockReturnValue("1234567890" as any);
-
     // execute
     const wrappedAction = withAllContexts(
       action,
@@ -120,8 +118,6 @@ describe("context helpers", () => {
         },
       ],
     });
-
-    vi.mocked(uuidv4).mockReturnValue("1234567890" as any);
 
     // execute
     const actionCreator = functionCreator(action);

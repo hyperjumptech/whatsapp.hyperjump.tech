@@ -7,7 +7,6 @@ import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "@/components/button";
 import { useCallback } from "react";
-import { Tab } from "@/hooks/use-home-tab";
 
 const countryCodePhoneErrorMessage =
   "Phone must starts with valid country code";

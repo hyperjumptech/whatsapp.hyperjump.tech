@@ -24,7 +24,7 @@ import {
  * @param time - The time to use. If not provided, the default shared time singleton will be used.
  * @returns The wrapped function.
  */
-export const withAllContexts = <Args extends any[], Output>(
+export const withAllContexts = <Args extends unknown[], Output>(
   fn: (...args: Args) => Promise<Output>,
   prisma: PrismaClient = prismaClient,
   uuid: typeof uuidv4 = uuidv4,
@@ -49,7 +49,7 @@ export const withAllContexts = <Args extends any[], Output>(
  * @param fn - The function to create.
  * @returns The created function.
  */
-export const functionCreator = <Args extends any[], Output>(
+export const functionCreator = <Args extends unknown[], Output>(
   fn: (...args: Args) => Promise<Output>
 ) => {
   // TEST#2

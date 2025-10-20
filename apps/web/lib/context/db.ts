@@ -32,7 +32,7 @@ import {
  * @param prisma - The prisma client to use. If not provided, the default shared prisma client singleton will be used.
  * @returns The wrapped component.
  */
-export const withDbContext = <P extends {}>(
+export const withDbContext = <P extends object>(
   Component: (props: P) => Promise<React.ReactNode> | React.ReactNode,
   prisma: PrismaClient = prismaClient
 ) =>
