@@ -23,10 +23,6 @@ vi.mock("@workspace/whatsapp/send-message", () => {
   };
 });
 
-vi.mock("server-only", () => ({
-  default: vi.fn(),
-}));
-
 describe(`actions/confirm-token`, () => {
   let testDb: TestDatabase;
 

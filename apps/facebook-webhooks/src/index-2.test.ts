@@ -6,10 +6,6 @@ import { isDebugEnabled } from "./utils/debug.js";
 import { logger } from "hono/logger";
 import { Hono } from "hono";
 
-vi.mock("server-only", () => ({
-  default: vi.fn(),
-}));
-
 vi.mock("@hono/node-server", () => ({
   serve: vi.fn().mockImplementation((app) => {
     return {

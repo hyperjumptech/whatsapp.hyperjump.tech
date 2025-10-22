@@ -18,10 +18,6 @@ vi.mock("@workspace/whatsapp/send-message", () => {
   };
 });
 
-vi.mock("server-only", () => ({
-  default: vi.fn(),
-}));
-
 vi.mock("@/lib/repositories/webhook-token", async (importOriginal) => {
   const original = await importOriginal();
   return {

@@ -19,10 +19,6 @@ vi.mock("next/navigation", () => {
   };
 });
 
-vi.mock("server-only", () => ({
-  default: vi.fn(),
-}));
-
 describe(`actions/register`, () => {
   let testDb: TestDatabase;
 

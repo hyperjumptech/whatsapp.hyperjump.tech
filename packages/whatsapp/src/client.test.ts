@@ -7,10 +7,6 @@ import { WhatsappClient } from "./client.js";
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);
 
-vi.mock("server-only", () => ({
-  default: vi.fn(),
-}));
-
 describe("whatsappClient", () => {
   beforeEach(() => {
     // Reset mock before each test
