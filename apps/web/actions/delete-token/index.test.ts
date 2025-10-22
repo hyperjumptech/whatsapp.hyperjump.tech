@@ -16,6 +16,10 @@ vi.mock("next/navigation", () => {
   };
 });
 
+vi.mock("server-only", () => ({
+  default: vi.fn(),
+}));
+
 describe(`actions/delete-token`, () => {
   let testDb: TestDatabase;
 
@@ -79,7 +83,7 @@ describe(`actions/delete-token`, () => {
     expect(result?.error).toBe(errorCodes.USER_NOT_FOUND);
   });
 
-  it(`TEST#4: should delete the user, webhook token and registration`, async () => {
+  it(`TEST#4: should delete the user, webhook token, registration and notify logs`, async () => {
     // setup
     await testDb.getPrismaClient().users.create({
       data: {
@@ -92,6 +96,12 @@ describe(`actions/delete-token`, () => {
         token: "1234567890",
         name: "John Doe",
         user: "1234567890",
+      },
+    });
+    await testDb.getPrismaClient().notify_logs.create({
+      data: {
+        userId: "1234567890",
+        type: "start",
       },
     });
 
@@ -117,6 +127,14 @@ describe(`actions/delete-token`, () => {
         },
       });
     expect(webhookToken).toBeNull();
+
+    // Make sure issue #13 is fixed. https://github.com/hyperjumptech/whatsapp.hyperjump.tech/issues/13
+    const notifyLogs = await testDb.getPrismaClient().notify_logs.findMany({
+      where: {
+        userId: "1234567890",
+      },
+    });
+    expect(notifyLogs).toHaveLength(0);
   });
 
   it(`TEST#7: should redirect to the delete success page`, async () => {

@@ -1,5 +1,5 @@
 [build]
-  command = "turbo run build --filter web --framework-inference=false --env-mode=loose && turbo run deploy --filter @workspace/database --framework-inference=false --env-mode=loose"
+  command = "rm packages/env/env.example && turbo run build --filter web --framework-inference=false --env-mode=loose && turbo run deploy --filter @workspace/database --framework-inference=false --env-mode=loose"
   publish = "apps/web/.next"
 
 [[plugins]]

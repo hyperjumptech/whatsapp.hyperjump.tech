@@ -1,5 +1,4 @@
 import { functionCreator } from "@/lib/context/helper";
-import { deleteRegistrationByPhoneHash } from "@/lib/repositories/registrations";
 import {
   deleteUserByPhoneHash,
   getUserByPhoneHash,

@@ -32,7 +32,7 @@ import {
  * @param whatsappClient - The whatsapp client to use. If not provided, the default shared whatsapp client singleton will be used.
  * @returns The wrapped component.
  */
-export const withWhatsappClient = <P extends {}>(
+export const withWhatsappClient = <P extends object>(
   Component: (props: P) => Promise<React.ReactNode> | React.ReactNode,
   whatsappClient: WhatsappClient = new WhatsappClient()
 ) =>
