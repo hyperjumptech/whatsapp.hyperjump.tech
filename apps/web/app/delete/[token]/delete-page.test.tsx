@@ -17,10 +17,6 @@ vi.mock("next/navigation", () => ({
   notFound: vi.fn(),
 }));
 
-vi.mock("server-only", () => ({
-  default: vi.fn(),
-}));
-
 describe("DeletePage", () => {
   let testDb: TestDatabase;
 

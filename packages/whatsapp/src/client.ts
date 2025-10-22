@@ -1,5 +1,3 @@
-import "server-only";
-
 import { env } from "@workspace/env";
 
 export interface MonikaNotificationMessageInput {
