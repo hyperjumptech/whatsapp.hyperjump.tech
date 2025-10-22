@@ -77,7 +77,11 @@ export const createApp = (options: { isNetlify?: boolean } = {}) => {
   // Global error handler
   app.onError((err, c) => {
     const prefix = options.isNetlify ? "[NOTIFY API]" : "[MOCK SERVER]";
-    console.error(`${prefix} Unhandled error:`, err);
+
+    // Too noisy in test environment
+    if (process.env.NODE_ENV !== "test") {
+      console.error(`${prefix} Unhandled error:`, err);
+    }
 
     return c.json(
       {
