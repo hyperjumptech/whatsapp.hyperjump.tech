@@ -16,6 +16,10 @@ vi.mock("next/navigation", () => {
   };
 });
 
+vi.mock("server-only", () => ({
+  default: vi.fn(),
+}));
+
 describe(`actions/delete-token`, () => {
   let testDb: TestDatabase;
 

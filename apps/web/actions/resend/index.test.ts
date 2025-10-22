@@ -21,6 +21,10 @@ vi.mock("@/lib/repositories/webhook-token", async (importOriginal) => {
   };
 });
 
+vi.mock("server-only", () => ({
+  default: vi.fn(),
+}));
+
 vi.mock("next/navigation", () => {
   return {
     redirect: vi.fn(),

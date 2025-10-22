@@ -10,6 +10,9 @@ vi.mock("@workspace/env", () => ({
     NEXT_PUBLIC_BASE_URL: "https://webhook.site",
   },
 }));
+vi.mock("server-only", () => ({
+  default: vi.fn(),
+}));
 
 describe("DeletePage", () => {
   test("should wrap the DeletePage with db context", async () => {

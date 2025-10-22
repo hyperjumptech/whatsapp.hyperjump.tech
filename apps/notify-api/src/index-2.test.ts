@@ -1,7 +1,8 @@
 /**
  * To test the TEST#6 in index.ts, we need to separate the test from the rest of the tests. This is because to mock isDebugEnabled, we need to mock it very early. Once the app is imported, we cannot change the mocked return value anymore. If you know how to change the mocked return value after the app is imported, please let me know.
  */
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
+
 import { isDebugEnabled } from "./utils/debug.js";
 import { logger } from "hono/logger";
 
